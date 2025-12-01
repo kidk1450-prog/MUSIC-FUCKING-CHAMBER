@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Music Chamber</title>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1DB954" />
+  <link rel="stylesheet" href="/style.css">
+  <!-- libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/idb/7.1.1/idb.min.js"></script>
+  <!-- Firebase compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div id="app" class="app">
+    <aside class="sidebar">
+      <div class="brand">Music Chamber</div>
+      <nav class="nav">
+        <a href="#" class="navlink">Home</a>
+        <a href="#" class="navlink">Search</a>
+        <a href="#" class="navlink">Library</a>
+      </nav>
+
+      <div class="library-block">
+        <div class="muted">Playlists</div>
+        <div id="sidebarPlaylists"></div>
+        <button id="createDemo" class="small">Add JoJo Demo Playlist</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <strong>Search Jamendo</strong>
+          <div class="muted">(legal catalog)</div>
+        </div>
+
+        <div id="authContainer" class="auth">
+          <div id="userArea" style="display:none;">
+            <span id="userEmail" class="muted"></span>
+            <button id="btnLogout" class="small">Logout</button>
+          </div>
+          <div id="authForm">
+            <input id="authEmail" placeholder="Email" class="small-input">
+            <input id="authPass" placeholder="Password" type="password" class="small-input">
+            <button id="btnSignUp" class="small">Sign up</button>
+            <button id="btnSignIn" class="small">Sign in</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="searchbar">
+        <input id="searchInput" placeholder="Search songs, artists, genres..." class="searchInput">
+        <button id="searchBtn" class="primary">Search</button>
+      </section>
+
+      <section class="content">
+        <section class="left">
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Search results</strong>
+              <div id="statusText" class="muted">No search yet</div>
+            </div>
+            <div id="songList" class="song-list"></div>
+          </div>
+
+          <div class="panel">
+            <strong>Cached / Offline Library</strong>
+            <div id="cachedList"></div>
+            <div class="muted">Tracks you cached (downloaded) will appear here.</div>
+            <div style="margin-top:8px">
+              <button id="clearCache" class="small">Delete all cached tracks</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="right">
+          <div class="panel">
+            <h3 style="color:var(--accent)">Your Playlists</h3>
+            <div class="row">
+              <input id="newPlaylistName" class="small-input" placeholder="New playlist name">
+              <button id="createPlaylistBtn" class="small">Create</button>
+            </div>
+            <div id="playlistContainer"></div>
+            <div style="margin-top:8px">
+              <button id="downloadPlaylist" class="small">Download playlist (zip)</button>
+              <div id="zipStatus" class="muted"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3 style="color:var(--accent)">AI / Stats</h3>
+            <div id="statsArea">No plays yet</div>
+            <div style="margin-top:8px">
+              <button id="aiBtn" class="small">AI Shuffle</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3 style="color:var(--accent)">Offline Size</h3>
+            <div id="storageInfo" class="muted">Calculating...</div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <!-- Player bar -->
+  <div class="player-bar">
+    <div class="player-left">
+      <div class="player-meta">
+        <div id="nowPlaying" class="now-title">Not playing</div>
+        <div id="nowArtist" class="muted"></div>
+      </div>
+    </div>
+
+    <div class="player-controls">
+      <button id="prevBtn">⏮</button>
+      <button id="playBtn">▶</button>
+      <button id="nextBtn">⏭</button>
+      <button id="shuffleBtn">🔀</button>
+      <button id="loopBtn">🔁</button>
+      <button id="loopOneBtn">🔂</button>
+      <button id="aiBtnBar">🤖</button>
+    </div>
+
+    <div class="player-right">
+      <div class="progress"><div id="progressBar" class="bar"></div></div>
+      <audio id="audio" controls preload="none"></audio>
+    </div>
+  </div>
+
+  <!-- app script -->
+  <script src="/app.js"></script>
+</body>
+</html>
